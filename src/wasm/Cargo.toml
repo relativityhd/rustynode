@@ -1,0 +1,22 @@
+[package]
+name = "wasm"
+version = "0.1.0"
+authors = ["Tobias Hölzer <tobiashoelzer@hotmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# If your wasm build shouldn't compile, try to remove this.
+# [package.metadata.wasm-pack.profile.release]
+# wasm-opt = false
+
+[lib]
+name = "wasm"
+path = "src/lib.rs"
+crate-type =["cdylib"]
+
+[dependencies]
+wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+serde_json = "1.0.32"
+serde_derive = "1.0.80"
+serde = "1.0.80"
