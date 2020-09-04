@@ -8,7 +8,9 @@
     "dev": "nodemon -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-all": "",
-    "build-wasm": "cd ./wasm && wasm-pack build --release"
+    "build-wasm": "cd ./wasm && wasm-pack build --release",
+    "build-napi": "cd ./napi && cargo build --release && cp ./target/release/libnapi.dylib ./ && mv libnapi.dylib napi.node",
+    "build-napi-rs": "cd ./napi-rs && cargo build --release && napi build --release"
   },
   "repository": {
     "type": "git",
@@ -32,9 +34,12 @@
   },
   "devDependencies": {
     "esm": "^3.2.25",
+    "napi-rs": "^0.3.1",
     "wasm-pack": "^0.9.1"
   },
   "standard": {
-    "ignoreRules": ["camelcase"]
+    "ignoreRules": [
+      "camelcase"
+    ]
   }
 }
