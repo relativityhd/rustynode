@@ -1,0 +1,45 @@
+{
+  "name": "rustynode",
+  "version": "1.0.0",
+  "description": "Benchmarking for Rust Language integrations into NodeJS",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node -r esm server.js",
+    "dev": "nodemon -r esm server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-all": "",
+    "build-wasm": "cd ./wasm && wasm-pack build --release",
+    "build-napi": "cd ./napi && cargo build --release && cp ./target/release/libnapi.dylib ./ && mv libnapi.dylib napi.node",
+    "build-napi-rs": "cd ./napi-rs && cargo build --release && napi build --release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/relativityhd/rustynode.git"
+  },
+  "keywords": [
+    "Rust",
+    "Node"
+  ],
+  "author": "Tobias Hoelzer <tobiashoelzer@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/relativityhd/rustynode/issues"
+  },
+  "homepage": "https://github.com/relativityhd/rustynode#readme",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "express": "^4.17.1",
+    "microtime": "^3.0.0",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "napi-rs": "^0.3.1",
+    "wasm-pack": "^0.9.1"
+  },
+  "standard": {
+    "ignoreRules": [
+      "camelcase"
+    ]
+  }
+}

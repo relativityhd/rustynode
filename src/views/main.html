@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <main>
+      <h1>Benchmarks: </h1>
+      <div id="plot-wrapper"></div>
+    </main>
+  </body>
+  <script>
+    window.onload = () => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = () => {
+        console.log(xhr)
+        console.log(JSON.parse(xhr.response))
+      }
+      xhr.open('GET', '/data', true);
+      xhr.send('');
+    }
+  </script>
+</html>
