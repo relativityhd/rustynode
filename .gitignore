@@ -5,3 +5,6 @@ npm-debug.log*
 
 # IDEs / Editor Configs
 .vscode
+
+# iCloud
+.DS_Store
