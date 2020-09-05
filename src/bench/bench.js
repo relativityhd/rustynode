@@ -76,7 +76,7 @@ runBenchmark(
     NapiRs: napirs.pi_opt,
     Native: native.pi_opt,
     Wasm: wasm.pi_opt
-  }, Array.from({ length: 8 }).map((_, i) => 10 ** i), false
+  }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
 )
 
 runBenchmark(
@@ -85,7 +85,7 @@ runBenchmark(
     NapiRs: napirs.pi,
     Native: native.pi,
     Wasm: wasm.pi
-  }, Array.from({ length: 8 }).map((_, i) => 10 ** i), false
+  }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
 )
 
 exports.getBenchmark = (id) => {
