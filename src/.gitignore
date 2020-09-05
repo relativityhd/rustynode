@@ -4,3 +4,4 @@ node_modules/
 # Rust builds
 pkg/
 target/
+*.node

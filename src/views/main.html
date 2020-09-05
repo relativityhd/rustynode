@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
   <body>
     <main>
       <h1>Benchmarks: </h1>
-      <div id="plot-wrapper"></div>
+      <div id="plot-wrapper">
+        <div id="plot-pi_opt"></div>
+        <div id="plot-pi"></div>
+      </div>
     </main>
   </body>
   <script>
     window.onload = () => {
+      requestData('Pi-Optimized', (benches) => {
+        renderPlot('plot-pi_opt', benches)
+      })
+
+      requestData('Pi', (benches) => {
+        renderPlot('plot-pi', benches)
+      })
+    }
+
+    function requestData(bname, onJson) {
       const xhr = new XMLHttpRequest()
       xhr.onload = () => {
         console.log(xhr)
+        if (xhr.status !== 200) return
         console.log(JSON.parse(xhr.response))
+        onJson(JSON.parse(xhr.response))
       }
-      xhr.open('GET', '/data', true);
-      xhr.send('');
+      xhr.open('GET', `/bench?benchid=${bname}`, true);
+      xhr.send('')
+    }
+
+    function renderPlot(divid, benches) {
+      const data = []
+      const layout = {
+        barmode: 'group',
+        yaxis: {
+          type: 'log',
+          autorange: true
+        }
+      }
+      const modules = benches.map(e => e.module).filter((m, i, s) => s.indexOf(m) === i)
+      for (let module of modules) {
+        data.push({
+          x: benches.filter(e => e.module === module).map(e => `n: ${e.args}`),
+          y: benches.filter(e => e.module === module).map(e => e.mean),
+          error_y: {
+            type: 'data',
+            array: benches.filter(e => e.module === module).map(e => e.moe),
+            visible: true
+          },
+          name: module,
+          type: 'bar',
+          log_y: true
+        })
+      }
+      console.log(data)
+      Plotly.newPlot(divid, data, layout)
     }
   </script>
 </html>
