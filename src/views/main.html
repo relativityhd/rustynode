@@ -8,18 +8,33 @@
       <h1>Benchmarks: </h1>
       <div id="plot-wrapper">
         <div id="plot-pi_opt"></div><hr>
-        <div id="plot-pi"></div>
+        <div id="plot-pi"></div><hr>
+        <div id="plot-fib_opt"></div><hr>
+        <div id="plot-fib"></div><hr>
+        <div id="plot-fib_it"></div>
       </div>
     </main>
   </body>
   <script>
     window.onload = () => {
       requestData('Pi-Optimized', (benches) => {
-        renderPlot('plot-pi_opt', benches, 'Benchmarks of an <b>optimized</b> Pi calculation with the Gregory-Leibniz Series')
+        renderPlot('plot-pi_opt', benches, 'Benchmarks of an <b>optimized</b> (removed if statements) Pi calculation with the Gregory-Leibniz Series')
       })
 
       requestData('Pi', (benches) => {
         renderPlot('plot-pi', benches, 'Benchmarks of a Pi calculation with the Gregory-Leibniz Series')
+      })
+
+      requestData('Fibonacci-Optimized', (benches) => {
+        renderPlot('plot-fib_opt', benches, 'Benchmarks of the <b>optimized</b> calculation of the n-th Fibonacci number based on based Dijkstra\'s method')
+      })
+      
+      requestData('Fibonacci', (benches) => {
+        renderPlot('plot-fib', benches, 'Benchmarks of the calculation of the n-th Fibonacci number')
+      })
+
+      requestData('Fibonacci-Iterative', (benches) => {
+        renderPlot('plot-fib_it', benches, 'Benchmarks of the <b>iterative</b> calculation of the n-th Fibonacci number')
       })
     }
 
@@ -64,7 +79,9 @@
           },
           name: module,
           type: 'bar',
-          log_y: true
+          log_y: true,
+          text: benches.filter(e => e.module === module).map(e => e.mean.toExponential(2)),
+          textposition: 'auto'
         })
       }
       console.log(data)

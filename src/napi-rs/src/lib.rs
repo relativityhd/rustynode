@@ -8,6 +8,7 @@ use std::convert::TryInto;
 use napi::{CallContext, JsNumber, Module, Result};
 
 mod pi;
+mod fib;
 
 #[cfg(all(unix, not(target_env = "musl")))]
 #[global_allocator]
@@ -22,6 +23,9 @@ register_module!(example, init);
 fn init(module: &mut Module) -> Result<()> {
   module.create_named_method("pi", pi)?;
   module.create_named_method("pi_opt", pi_opt)?;
+  module.create_named_method("fib", fib)?;
+  module.create_named_method("fib_opt", fib_opt)?;
+  module.create_named_method("fib_it", fib_it)?;
   Ok(())
 }
 
@@ -35,4 +39,22 @@ fn pi(ctx: CallContext) -> Result<JsNumber> {
 fn pi_opt(ctx: CallContext) -> Result<JsNumber> {
   let n = ctx.get::<JsNumber>(0)?.try_into()?;
   ctx.env.create_double(pi::pi_opt(n))
+}
+
+#[js_function(1)] // ------> arguments length, omit for zero
+fn fib(ctx: CallContext) -> Result<JsNumber> {
+  let n = ctx.get::<JsNumber>(0)?.try_into()?;
+  ctx.env.create_int32(fib::fib(n))
+}
+
+#[js_function(1)] // ------> arguments length, omit for zero
+fn fib_opt(ctx: CallContext) -> Result<JsNumber> {
+  let n = ctx.get::<JsNumber>(0)?.try_into()?;
+  ctx.env.create_int32(fib::fib_opt(n))
+}
+
+#[js_function(1)] // ------> arguments length, omit for zero
+fn fib_it(ctx: CallContext) -> Result<JsNumber> {
+  let n = ctx.get::<JsNumber>(0)?.try_into()?;
+  ctx.env.create_int64(fib::fib_it(n))
 }

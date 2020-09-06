@@ -88,6 +88,33 @@ runBenchmark(
   }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
 )
 
+runBenchmark(
+  'Fibonacci-Optimized', {
+    Napi: napi.fib_opt,
+    NapiRs: napirs.fib_opt,
+    Native: native.fib_opt,
+    Wasm: wasm.fib_opt
+  }, Array.from({ length: 10 }).map((_, i) => 2 * i), false
+)
+
+runBenchmark(
+  'Fibonacci', {
+    Napi: napi.fib,
+    NapiRs: napirs.fib,
+    Native: native.fib,
+    Wasm: wasm.fib
+  }, Array.from({ length: 10 }).map((_, i) => 2 * i), false
+)
+
+runBenchmark(
+  'Fibonacci-Iterative', {
+    Napi: napi.fib_it,
+    NapiRs: napirs.fib_it,
+    Native: native.fib_it,
+    Wasm: wasm.fib_it
+  }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
+)
+
 exports.getBenchmark = (id) => {
   return benches[id] ? benches[id].res : `No bench with the id ${id} found.`
 }
