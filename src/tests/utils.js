@@ -1,7 +1,7 @@
-const napi = require('../napi/napi.node')
-const napirs = require('../napi-rs/napirs.node')
-const native = require('../native')
-const wasm = require('../wasm/pkg/wasm')
+const napi = require('../../crates/napi')
+const napirs = require('../../crates/napi-rs')
+const node = require('../node')
+const wasm = require('../../crates/wasm')
 
 function printFailedTest (fncall, res, ex) {
   console.log(`\x1b[31m Test failed for ${fncall}; returned: ${res}, expected: ${ex}\x1b[0m`)
@@ -13,7 +13,7 @@ function printCon (failed, fname) {
 exports.testFibonacci = (fname) => {
   const fibonacciSeries = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
   let failed = 0
-  for (const [mname, module] of Object.entries({ napi, napirs, native, wasm })) {
+  for (const [mname, module] of Object.entries({ napi, napirs, node, wasm })) {
     for (let n in fibonacciSeries) {
       n = parseInt(n)
       const res = module[fname](n)
@@ -30,7 +30,7 @@ exports.testPi = (fname) => {
   let failed = 0
   for (let n of Array.from({ length: 8 }).map((_, i) => 10 ** i)) {
     let lastResult
-    for (const [mname, module] of Object.entries({ napi, napirs, native, wasm })) {
+    for (const [mname, module] of Object.entries({ napi, napirs, node, wasm })) {
       n = parseInt(n)
       const res = module[fname](n)
       if (typeof lastResult !== 'undefined' && res !== lastResult) {

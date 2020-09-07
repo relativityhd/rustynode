@@ -10,14 +10,6 @@ use napi::{CallContext, JsNumber, Module, Result};
 mod pi;
 mod fib;
 
-#[cfg(all(unix, not(target_env = "musl")))]
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
-#[cfg(windows)]
-#[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
 register_module!(example, init);
 
 fn init(module: &mut Module) -> Result<()> {

@@ -1,7 +1,0 @@
-# Dependency directories
-node_modules/
-
-# Rust builds
-pkg/
-target/
-*.node

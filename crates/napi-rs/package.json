@@ -1,0 +1,14 @@
+{
+  "name": "napi-rs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cargo build --release && napi build --release"
+  },
+  "author": "Tobias Hölzer <tobiashoelzer@hotmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "napi-rs": "^0.3.1"
+  }
+}

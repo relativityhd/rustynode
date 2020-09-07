@@ -1,0 +1,11 @@
+{
+  "name": "napi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cargo build --release && mv ./target/release/libnapi.dylib ./index.node"
+  },
+  "author": "Tobias Hölzer <tobiashoelzer@hotmail.com>",
+  "license": "ISC"
+}

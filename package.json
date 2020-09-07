@@ -4,21 +4,22 @@
   "description": "Benchmarking for Rust Language integrations into NodeJS",
   "main": "src/server.js",
   "scripts": {
-    "start": "node -r esm server.js",
-    "dev": "nodemon -r esm server.js",
-    "test": "node -r esm ./tests/tests.js",
-    "build-all": "npm run build-wasm && npm run build-napi && npm run build-napi-rs",
-    "build-wasm": "cd ./wasm && wasm-pack build --target nodejs --release",
-    "build-napi": "cd ./napi && cargo build --release && cp ./target/release/libnapi.dylib ./ && mv libnapi.dylib napi.node",
-    "build-napi-rs": "cd ./napi-rs && cargo build --release && napi build --release"
+    "start": "node -r esm ./src/server.js",
+    "dev": "nodemon -r esm ./src/server.js",
+    "test": "node -r esm ./src/tests/tests.js",
+    "preinstall": "npm i --prefix ./crates/napi-rs && npm i --prefix ./crates/neon && npm i --prefix ./crates/node-bindgen && npm i --prefix ./crates/napi && npm i --prefix ./crates/wasm",
+    "build-napi": "cd ./crates/napi && cargo build --release && mv ./target/release/libnapi.dylib ./index.node",
+    "build-napirs": "cd ./crates/napi-rs && cargo build --release && napi build --release",
+    "build-wasm": "cd ./crates/wasm && wasm-pack build --target nodejs --release"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/relativityhd/rustynode.git"
   },
   "keywords": [
-    "Rust",
-    "Node"
+    "rust",
+    "node",
+    "wasm"
   ],
   "author": "Tobias Hoelzer <tobiashoelzer@hotmail.com>",
   "license": "MIT",
