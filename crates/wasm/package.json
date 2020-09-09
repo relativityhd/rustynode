@@ -1,0 +1,11 @@
+{
+  "name": "wasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "wasm-pack build --target nodejs --release"
+  },
+  "author": "Tobias Hölzer <tobiashoelzer@hotmail.com>",
+  "license": "ISC"
+}
