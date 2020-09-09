@@ -37,7 +37,7 @@ function runSingleBenchmark (fns, args) {
 exports.runBenchmark = async (bname, fns, args, overwrite = true) => {
   const jsonPath = path.join(__dirname, `../../benchmarks/${bname}.json`)
   const mdPath = path.join(__dirname, `../../benchmarks/${bname}.md`)
-
+  
   if (Array.isArray(args)) {
     args = args.reduce((obj, a) => {
       const _a = a.length ? a : [a]
@@ -65,6 +65,14 @@ exports.runBenchmark = async (bname, fns, args, overwrite = true) => {
   }
   fs.writeFile(jsonPath, JSON.stringify(benches[bname]), e => console.log(e || `Stored benchmarks to ${jsonPath}`))
   fs.writeFile(mdPath, `# Results of benchmark: ${bname}\n\n${jsonToMarkdownTable(benches[bname].res, ['name', 'mean', 'moe'])}`, e => console.log(e || `Stored benchmarks to ${mdPath}`))
+}
+
+exports.extractFunctions = (modules, fname) => {
+  const mfuncs = {}
+  for (const mname of Object.keys(modules)) {
+    mfuncs[mname] = modules[mname][fname]
+  }
+  return mfuncs
 }
 
 exports.getBenchmark = (id) => {

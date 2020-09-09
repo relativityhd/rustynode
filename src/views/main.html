@@ -7,6 +7,7 @@
     <main>
       <h1>Benchmarks: </h1>
       <div id="plot-wrapper">
+        <div id="plot-overhead"></div><hr>
         <div id="plot-pi_opt"></div><hr>
         <div id="plot-pi"></div><hr>
         <div id="plot-fib_opt"></div><hr>
@@ -17,6 +18,11 @@
   </body>
   <script>
     window.onload = () => {
+
+      requestData('Overhead', (benches) => {
+        renderPlot('plot-overhead', benches, 'Benchmarks of the interface per-call-overhead')
+      })
+
       requestData('Pi-Optimized', (benches) => {
         renderPlot('plot-pi_opt', benches, 'Benchmarks of an <b>optimized</b> (removed if statements) Pi calculation with the Gregory-Leibniz Series')
       })
@@ -55,31 +61,33 @@
       const layout = {
         barmode: 'group',
         yaxis: {
-          type: 'log',
+          // type: 'log',
           autorange: true,
-          ticksuffix: 's',
-          title: 'Execution Time'
+          ticksuffix: 'x',
+          title: 'Relative Execution Time'
         },
         title: {
           text: bname,
           xref: 'paper',
           x: 0,
         },
-        colorway : ['#9ef0f0', '#3ddbd9', '#08bdba', '#009d9a']
+        colorway : ['#0f62fe', '#0043ce', '#002d9c', '#001d6c', '#001141']
       }
       const modules = benches.map(e => e.module).filter((m, i, s) => s.indexOf(m) === i)
+      console.log('--DEBUG : renderPlot -> benches', benches)
+      const nodeTimes = benches.filter(e => e.module === 'Node').map(e => e.mean)
       for (let module of modules) {
         data.push({
           x: benches.filter(e => e.module === module).map(e => `n: ${e.args}`),
-          y: benches.filter(e => e.module === module).map(e => e.mean),
+          y: module !== 'Node' ? benches.filter(e => e.module === module).map((e, i) => (e.mean/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 1),
           error_y: {
             type: 'data',
-            array: benches.filter(e => e.module === module).map(e => e.moe),
+            array: module !== 'Node' ? benches.filter(e => e.module === module).map((e, i) => (e.moe/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 0),
             visible: true
           },
           name: module,
           type: 'bar',
-          log_y: true,
+          // log_y: true,
           text: benches.filter(e => e.module === module).map(e => e.mean.toExponential(2)),
           textposition: 'auto'
         })

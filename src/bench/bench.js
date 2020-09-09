@@ -1,51 +1,57 @@
 const napi = require('../../crates/napi')
 const napirs = require('../../crates/napi-rs')
+const neon = require('../../crates/neon')
 const node = require('../node')
 const wasm = require('../../crates/wasm')
-const { runBenchmark, getBenchmark } = require('./utils')
+const { runBenchmark, getBenchmark, extractFunctions } = require('./utils')
 exports.getBenchmark = getBenchmark
 
+const modules = {
+  'N-Api': napi,
+  'Napi-rs': napirs,
+  'Neon': neon,
+  'Node': node,
+  'Wasm-pack': wasm
+}
+
 runBenchmark(
-  'Pi-Optimized', {
-    Napi: napi.pi_opt,
-    NapiRs: napirs.pi_opt,
-    Node: node.pi_opt,
-    Wasm: wasm.pi_opt
-  }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
+  'Overhead',
+  extractFunctions(modules, 'overhead'),
+  [1],
+  false
 )
 
 runBenchmark(
-  'Pi', {
-    Napi: napi.pi,
-    NapiRs: napirs.pi,
-    Node: node.pi,
-    Wasm: wasm.pi
-  }, Array.from({ length: 10 }).map((_, i) => 10 ** i), false
+  'Pi-Optimized',
+  extractFunctions(modules, 'pi_opt'),
+  [100, 100000, 10000000],
+  false
 )
 
 runBenchmark(
-  'Fibonacci-Optimized', {
-    Napi: napi.fib_opt,
-    NapiRs: napirs.fib_opt,
-    Node: node.fib_opt,
-    Wasm: wasm.fib_opt
-  }, Array.from({ length: 10 }).map((_, i) => 2 * i), false
+  'Pi',
+  extractFunctions(modules, 'pi'),
+  [100, 100000, 10000000],
+  false
 )
 
 runBenchmark(
-  'Fibonacci', {
-    Napi: napi.fib,
-    NapiRs: napirs.fib,
-    Node: node.fib,
-    Wasm: wasm.fib
-  }, Array.from({ length: 10 }).map((_, i) => 2 * i), false
+  'Fibonacci-Optimized',
+  extractFunctions(modules, 'fib_opt'),
+  [3, 4, 5, 30, 50, 90],
+  false
 )
 
 runBenchmark(
-  'Fibonacci-Iterative', {
-    Napi: napi.fib_it,
-    NapiRs: napirs.fib_it,
-    Node: node.fib_it,
-    Wasm: wasm.fib_it
-  }, Array.from({ length: 8 }).map((_, i) => 2 ** i), false
+  'Fibonacci',
+  extractFunctions(modules, 'fib'),
+  [4, 16, 32],
+  false
+)
+
+runBenchmark(
+  'Fibonacci-Iterative',
+  extractFunctions(modules, 'fib_it'),
+  [30, 50, 90],
+  false
 )
