@@ -24,34 +24,34 @@ runBenchmark(
 runBenchmark(
   'Pi-Optimized',
   extractFunctions(modules, 'pi_opt'),
-  [100, 100000, 10000000],
+  [1, 100, 100000, 10000000],
   false
 )
 
 runBenchmark(
   'Pi',
   extractFunctions(modules, 'pi'),
-  [100, 100000, 10000000],
+  [1, 100, 100000, 10000000],
   false
 )
 
 runBenchmark(
   'Fibonacci-Optimized',
   extractFunctions(modules, 'fib_opt'),
-  [3, 4, 5, 30, 50, 90],
+  [1, 3, 4, 5, 30, 50, 90],
   false
 )
 
 runBenchmark(
   'Fibonacci',
   extractFunctions(modules, 'fib'),
-  [4, 16, 32],
+  [1, 4, 16, 32],
   false
 )
 
 runBenchmark(
   'Fibonacci-Iterative',
   extractFunctions(modules, 'fib_it'),
-  [30, 50, 90],
+  [1, 30, 50, 90, 250, 10000, 1000000000],
   false
 )

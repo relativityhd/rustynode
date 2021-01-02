@@ -75,20 +75,21 @@
       }
       const modules = benches.map(e => e.module).filter((m, i, s) => s.indexOf(m) === i)
       console.log('--DEBUG : renderPlot -> benches', benches)
-      const nodeTimes = benches.filter(e => e.module === 'Node').map(e => e.mean)
+      const nodeTimes = benches.filter(e => e.module === 'Node').sort((a, b) => a.args[0] - b.args[0]).map(e => e.mean)
       for (let module of modules) {
+        const moduleData = benches.filter(e => e.module === module).sort((a, b) => a.args[0] - b.args[0])
         data.push({
-          x: benches.filter(e => e.module === module).map(e => `n: ${e.args}`),
-          y: module !== 'Node' ? benches.filter(e => e.module === module).map((e, i) => (e.mean/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 1),
+          x: moduleData.map(e => `n: ${e.args}`),
+          y: module !== 'Node' ? moduleData.map((e, i) => (e.mean/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 1),
           error_y: {
             type: 'data',
-            array: module !== 'Node' ? benches.filter(e => e.module === module).map((e, i) => (e.moe/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 0),
+            array: module !== 'Node' ? moduleData.map((e, i) => (e.moe/nodeTimes[i]).toFixed(2)) : nodeTimes.map(() => 0),
             visible: true
           },
           name: module,
           type: 'bar',
           // log_y: true,
-          text: benches.filter(e => e.module === module).map(e => e.mean.toExponential(2)),
+          text: moduleData.map(e => e.mean.toExponential(2)),
           textposition: 'auto'
         })
       }
