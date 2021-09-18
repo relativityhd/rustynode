@@ -11,7 +11,7 @@
     "build-all": "npm run build-napi && npm run build-napi-rs && npm run build-neon && npm run build-wasm-pack",
     "build-napi": "cd ./crates/napi && cargo build --release && mv ./target/release/libnapi.dylib ./index.node",
     "build-napi-rs": "cd ./crates/napi-rs && cargo build --release && napi build --release",
-    "build-neon": "cd ./crates/neon && neon build --release",
+    "build-neon": "cd ./crates/neon && npm run build -- --release",
     "build-wasm-pack": "cd ./crates/wasm && wasm-pack build --target nodejs --release"
   },
   "repository": {

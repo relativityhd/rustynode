@@ -9,6 +9,7 @@
   "author": "Tobias Hölzer <tobiashoelzer@hotmail.com>",
   "license": "ISC",
   "dependencies": {
-    "napi-rs": "^0.3.1"
+    "napi-rs": "^0.3.1",
+    "rustynode": "file:../.."
   }
 }

@@ -14,9 +14,10 @@ app.get('/bench', (req, res) => {
   res.json(getBenchmark(req.query.benchid))
 })
 
-const address = networkInterfaces()["en0"].filter(en0 => en0.family === 'IPv4')[0].address
-console.log('--DEBUG : networkInterfaces()', networkInterfaces())
-console.log('--DEBUG : address', address)
+const address = Object.values(networkInterfaces())
+  .flat()
+  .find((i) => i.family == 'IPv4' && !i.internal).address
+
 app.listen(port, `${address}`, () => {
   console.log(`Example app listening at http://${address}:${port}`)
 })
